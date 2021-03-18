@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mensagem-backend.fullname" . }}-config
+data:
+  JAVA_OPTS: {{ .Values.javaOpts }}
+  APPLICATION_SECRET: {{ .Values.applicationSecret }}                 #Checked
+  KUBERNETES_CLUSTER_SUFFIX: {{ .Values.k8s.cluster.suffix }}         #Checked
+  NOME_INSTALACAO:  {{ .Values.instalacao.nome }}                     #Checked
+  CHAVE_PUBLICA_INSTALACAO: {{ .Values.instalacao.crypto.chavePublica  | quote }}
+  #CHAVE_PRIVADA_INSTALACAO: {{ .Values.instalacao.crypto.chavePrivada  | quote }}
+  CHAVE_PUBLICA_INTERSERVICO: {{ .Values.instalacao.crypto.chavePublicaInterServico  | quote }}
+  CHAVE_PRIVADA_INTERSERVICO: {{ .Values.instalacao.crypto.chavePrivadaInterServico  | quote }}
+
+
+  ##AKKA_CLUSTER_REQUIRED_CONTACT_POINT_NR: {{ .Values.servico.akka.cluster.requiredContactPointsNr | quote }}
+
+  #Authentication and token configurations
+  #OIDC_PROVIDER_NAME:  {{ .Values.instalacao.oidc.provider.name }}
+  #OIDC_PROVIDER_CONFIG_URI: {{ .Values.instalacao.oidc.provider.configURI }}
+  AUTH_TOKEN_NAME: {{ .Values.instalacao.auth.token.nome }}
+  AUTH_TOKEN_MAXAGE: {{ .Values.instalacao.auth.token.maxAge | quote }}
+  AUTH_JWTKEY_REFRESH_INTERVAL_HOURS: {{ .Values.instalacao.auth.jwkey.refresh | quote }}   #Checked
+  AUTH_META_REFRESH_INTERVAL_MINUTES: {{ .Values.instalacao.auth.meta.refresh | quote }}
+
+
+  #Hos
+  UTILIZADOR_OBTER_TOKEN_TIMEOUT: {{.Values.hos.obter.token.timeout | quote }}       #new
+
+  #Configurações de loggers
+  LOGGER_KAFKA_APPENDER_NAME: {{ .Values.logger.kafka.appenderName }}     #Logger Checked
+  LOGGER_KAFKA_TOPIC: {{ .Values.logger.kafka.topic }}                    #Logger Checked
+  LOGGER_KAFKA_BROKER_HOSTNAME: {{ .Values.logger.kafka.brokerHostname }} #Logger Checked
+  LOGGER_KAFKA_BROKER_PORT: {{ .Values.logger.kafka.brokerPort | quote }} #Logger Checked
+  LOGGER_KAMON_LEVEL: {{ .Values.logger.kamonLevel }}
+  LOGGER_PLAY_LEVEL: {{ .Values.logger.playLevel }}
+  LOGGER_AKKA_LEVEL: {{ .Values.logger.akkaLevel }}
+  LOGGER_AKKA_DNS_LEVEL: {{ .Values.logger.akkaDnsLevel }}
+  LOGGER_AKKA_CLUSTER_LEVEL: {{ .Values.logger.akkaClusterLevel }}
+  LOGGER_ALPAKKA_LEVEL: {{ .Values.logger.alpakkaLevel }}
+  LOGGER_LAGOM_LEVEL: {{ .Values.logger.lagomLevel }}
+  LOGGER_CASSANDRA_LEVEL: {{ .Values.logger.cassandraLevel }}
+  LOGGER_LOCAL_PACKAGE: {{ .Values.logger.localPackage }}                 #Logger Checked
+  LOGGER_LOCAL_LEVEL: {{ .Values.logger.localLevel }}                     #Logger Checked
+  LOGGER_SELECTED_LEVEL: {{ .Values.logger.selectedLevel }}               #Logger Checked
+  LOGGER_SELECTED_APPENDER1: {{ .Values.logger.appender1 }}               #Logger Checked
+  LOGGER_SELECTED_APPENDER2: {{ .Values.logger.appender2 }}               #Logger Checked
+  LOGGER_CUSTOM_PACKAGE_1: {{ .Values.logger.customPackage1 }}
+  LOGGER_CUSTOM_LEVEL_1: {{ .Values.logger.customLevel1 }}
+  LOGGER_CUSTOM_PACKAGE_2: {{ .Values.logger.customPackage2 }}
+  LOGGER_CUSTOM_LEVEL_2: {{ .Values.logger.customLevel2 }}
+  LOGGER_CUSTOM_PACKAGE_3: {{ .Values.logger.customPackage3 }}
+  LOGGER_CUSTOM_LEVEL_3: {{ .Values.logger.customLevel3 }}
+  LOGGER_CUSTOM_PACKAGE_4: {{ .Values.logger.customPackage4 }}
+  LOGGER_CUSTOM_LEVEL_4: {{ .Values.logger.customLevel4 }}
+  LOGGER_CUSTOM_PACKAGE_5: {{ .Values.logger.customPackage5 }}
+  LOGGER_CUSTOM_LEVEL_5: {{ .Values.logger.customLevel5 }}
+
+  #acesso à internet só no acesso-backend
+  INTERNET_CONNECTION_USE_PROXY: {{ .Values.proxy.use | quote }}      #Checked
+  INTERNET_CONNECTION_PROXY_HOST: {{ .Values.proxy.host }}            #Checked
+  INTERNET_CONNECTION_PROXY_PORT: {{ .Values.proxy.port | quote }}    #Checked
+  INTERNET_CONNECTION_PROXY_NOPROXY: {{ .Values.proxy.noProxy }}      #Checked
+
+  #Configurações de plataforma
+  ELASTICSEARCH_HOSTNAME: {{ .Values.plataforma.elastic.hostname }}         #Checked
+  ELASTICSEARCH_PORT: {{ .Values.plataforma.elastic.port | quote }}         #Checked
+  ELASTICSEARCH_SSL_ACTIVE: {{ .Values.plataforma.elastic.ssl | quote }}            #Checked
+  ELASTICSEARCH_USERNAME: {{ .Values.plataforma.elastic.username }}         #Checked
+  ELASTICSEARCH_PASSWORD: {{ .Values.plataforma.elastic.password }}         #Checked
+  KAFKA_SERVICE_NAME: {{ .Values.plataforma.kafka.serviceName }}                 #Checked
+  KAFKA_HOST: {{ .Values.plataforma.kafka.host | quote }}                     #Checked
+  KAFKA_PORT: {{ .Values.plataforma.kafka.port | quote }}                     #Checked
+  CASSANDRA_KEYSPACE_PREFIX: {{ .Values.plataforma.cassandra.keyspace.prefix }} #Checked
+  CASSANDRA_SERVICE_NAME: {{.Values.plataforma.cassandra.serviceName}}
+
+  #Configurações de serviço
+  #CORS_ALLOWED_ORIGINS: {{ .Values.servico.cors_allowed_origins }}
+  ##MEMCACHED_ENABLED:  {{ .Values.servico.memcached.enabled | quote }}
+  MEMCACHED_BASE_HOSTNAME: {{ .Values.servico.memcached.baseHostname }}                                                             #Checked
+  MEMCACHED_PORT: {{ .Values.servico.memcached.port | quote }}                                                                      #Checked
+  MEMCACHED_NODE_COUNT: {{ .Values.servico.memcached.nodeCount | quote }}                                                           #Checked
+  MEMCACHED_NAMESPACE: {{ .Values.servico.memcached.namespace }}                                                                    #Checked
+  EHCACHE_MAXSIZE_MB: {{ .Values.servico.ehcache.maxSize | quote }}                                                                 #Checked
+  EHCACHE_MAX_OBJECT_GRAPH_SIZE: {{ .Values.servico.ehcache.maxObjGraphSize | quote }}
+  EHCACHE_EXPIRY_SECONDS: {{ .Values.servico.ehcache.expiry | quote }}
+  ECCACHE_EXPIRY_SECONDS: {{ .Values.servico.eccache.expiry | quote }}                                                              #Checked
+  ECCACHE_MAX_ENTRIES: {{ .Values.servico.eccache.maxEntries | quote }}                                                             #Checked
+  CASSANDRA_QUERY_JOURNAL_EVENTUAL_CONSISTENCY_DELAY_SECONDS: {{ .Values.servico.cassandra.journal.eventualConsistency.delay }}     #Checked
+  CASSANDRA_JOURNAL_REPLICATION_FACTOR: {{ .Values.servico.cassandra.journal.replicationFactor | quote }}                           #Checked
+  CASSANDRA_SNAPSHOT_STORE_REPLICATION_FACTOR: {{ .Values.servico.cassandra.snapshot.replicationFactor | quote }}                   #Checked
+  CASSANDRA_READSIDE_REPLICATION_FACTOR: {{ .Values.servico.cassandra.readSide.replicationFactor | quote }}                         #Checked
+  VERSAO_CASSANDRA_READSIDE: {{ .Values.servico.cassandra.readSide.version | quote }}                                               #Checked
+  ACTOR_SYSTEM_NAME: {{ .Values.servico.akka.actorSystem }}                                                                         #Checked
+
+  LAGOM_PERSISTENCE_ASK_TIMEOUT: {{ .Values.servico.lagom.persistence.askTimeout | quote }}                                         #Checked
+
+
+  READ_SIZE_PROCESSOR_OFFSET: {{ .Values.servico.read.side.mensagem.offset | quote }}                                                 #Checked
+  VERSAO_ELASTIC_READSIDE: {{ .Values.servico.read.side.elasticsearch.versao | quote }}                                             #Checked
+
+  #AKKA_LOG_LEVEL: {{ .Values.servico.akka.logLevel }}
+  #KAFKA_BOOTSTRAP_SERVERS: { { .Values.XXXXXXXX.kafka.bootstrapservers } }
+  #KAFKA_OFFSET_RESET: { { .Values.XXXXXXXX.kafka.offsetResetConfig } }
+  #KAFKA_BROKER: { { .Values.XXXXXXXX.kafka.broker } }
+
+  MENSAGEM_BACKEND_SERVICE_HOST: {{ .Values.servico.mensagemBackendHost }}
+  MENSAGEM_BACKEND_SERVICE_PORT: {{ .Values.servico.mensagemBackendPort | quote }}
+
+  INSTALACAO_THIRDPARTY_KEYCOUNT : {{ .Values.instalacao.crypto.keyCountThirdParty | quote }}
+  NOME_INSTALACAO_THIRDPARTY_01: {{ .Values.instalacao.crypto.nomeInstalacaoThirdParty | quote }}
+  CHAVE_INSTALACAO_THIRDPARTY_01: {{ .Values.instalacao.crypto.chaveInstalacaoThirdParty | quote }}
+

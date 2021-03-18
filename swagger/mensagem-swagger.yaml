@@ -1,0 +1,523 @@
+openapi: 3.0.0
+info:
+  description: >-
+    Este descritor apresenta e descreve as APIs referentes ao contexto de base
+    da HOS, neste caso em particular, o serviço de Mensagens.
+  version: "1.3"
+  title: base | Mensagem
+  contact:
+    email: tiago.madeira@timestamp.pt
+externalDocs:
+  description: 'Mais detalhes no seguinte URL:'
+  url: 'https://gitlab.devops-spms.xyz/hos/base-backend'
+servers:
+  - url: /
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+      environment:
+        default: api
+        enum:
+          - api
+          - api.dev
+          - api.staging
+tags:
+  - name: Mensagem
+    description: >-
+      Serviço de mensagens
+
+paths:
+  '/base/mensagem':
+    post:
+      tags:
+      - Mensagem
+      summary: Criar uma Mensagem
+      description: Criar uma Mensagem
+      operationId: criarMensagem
+      requestBody:
+        required: true
+        description: Request com atributos associados à mensagem a ser criada.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarMensagemRequest'
+      responses:
+        '200':
+          description: Mensagem criada
+        '400':
+          description: Pedido inválido
+        '403':
+          description: Não Autorizado
+        '500':
+          description: Serviço indisponível
+      security:
+      - HOS_TOKEN: []
+
+
+  '/base/mensagem/registar':
+    post:
+      tags:
+      - Mensagem
+      summary: (Serviço Interno) Registar um conjunto de mensagens
+      description: Criar varias mensagens num só pedido. __*Disponivel apenas entre serviços de backend.*__
+      operationId: registarMensagens
+      requestBody:
+        required: true
+        description: Request com lista de mensagens a serem registadas.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrarMensagensRequest'
+      responses:
+        '200':
+          description: Mensagens registadas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistarMensagensResponse'
+        '400':
+          description: >-
+            <p>Pedido Inválido</p>Este erro será geralmente acompanhado de
+            mensagem adicional no corpo da resposta referente à validação do
+            pedido.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '401':
+          description: Não Autorizado (token OIDC expirado)
+        '403':
+          description: Não Autorizado
+        '406':
+          description: >-
+            <p>Erro de negócio</p>Acompanhado de mensagem adicional referente ao
+            erro detetado no corpo da resposta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '500':
+          description: Erro interno ao processar o pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+      security:
+      - HOS_TOKEN: []
+
+
+  '/base/mensagem/{chave}/idioma/{idioma}':
+    put:
+      tags:
+      - Mensagem
+      summary: Alterar uma mensagem
+      description: Alterar uma mensagem
+      operationId: alterarMensagem
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          description: Chave da mensagem
+          schema:
+            type: string
+        - name: idioma
+          in: path
+          required: true
+          description: Idioma da mensagem
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Atributos da mensagem.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlterarMensagemRequest'
+      responses:
+        '200':
+          description: Mensagem alterada
+        '400':
+          description: >-
+            <p>Pedido Inválido</p>Este erro será geralmente acompanhado de
+            mensagem adicional no corpo da resposta referente à validação do
+            pedido.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '401':
+          description: Não Autorizado (token OIDC expirado)
+        '403':
+          description: Não Autorizado
+        '406':
+          description: >-
+            <p>Erro de negócio</p>Acompanhado de mensagem adicional referente ao
+            erro detetado no corpo da resposta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '500':
+          description: Erro interno ao processar o pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+      security:
+      - HOS_TOKEN: []
+
+
+  '/base/mensagem/{chave}/idioma/:idioma':
+    get:
+      tags:
+      - Mensagem
+      summary: Obter mensagem
+      description: Obtem uma mensagem a partir de um idioma e de um codigo
+      operationId: obterMensagem
+      parameters:
+        - name: chave
+          in: path
+          required: true
+          description: Chave da mensagem
+          schema:
+            type: string
+        - name: idioma
+          in: path
+          required: true
+          description: Idioma da mensagem
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mensagem encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mensagem'
+        '400':
+          description: >-
+            <p>Pedido Inválido</p>Este erro será geralmente acompanhado de
+            mensagem adicional no corpo da resposta referente à validação do
+            pedido.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '401':
+          description: Não Autorizado (token OIDC expirado)
+        '403':
+          description: Não Autorizado
+        '406':
+          description: >-
+            <p>Erro de negócio</p>Acompanhado de mensagem adicional referente ao
+            erro detetado no corpo da resposta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '500':
+          description: Erro interno ao processar o pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+      security:
+      - HOS_TOKEN: []
+
+
+  '/base/mensagem/consultar':
+    post:
+      tags:
+      - Mensagem
+      summary: Consultar mensagens
+      description: Consultar mensagens em todos os idiomas, através da suas chaves
+      operationId: consultarMensagens
+      requestBody:
+        required: true
+        description: Chaves das mensagens
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsultarMensagensRequest'
+      responses:
+        '200':
+          description: Mensagens encontrada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mensagem'
+        '400':
+          description: >-
+            <p>Pedido Inválido</p>Este erro será geralmente acompanhado de
+            mensagem adicional no corpo da resposta referente à validação do
+            pedido.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '401':
+          description: Não Autorizado (token OIDC expirado)
+        '403':
+          description: Não Autorizado
+        '406':
+          description: >-
+            <p>Erro de negócio</p>Acompanhado de mensagem adicional referente ao
+            erro detetado no corpo da resposta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+        '500':
+          description: Erro interno ao processar o pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+      security:
+      - HOS_TOKEN: []
+
+
+  '/base/mensagem/pesquisar':
+    post:
+      tags:
+      - Mensagem
+      summary: Pesquisar Mensagens
+      description: Pesquisar mensagens através de critérios de pesquisa
+      operationId: pesquisarMensagens
+      parameters:
+        - name: inativos
+          in: query
+          required: false
+          description: Devolver registos inativos. Por omissão assume false.
+          schema:
+            type: boolean
+        - name: vID
+          in: query
+          required: false
+          description: >-
+            Identificador da vista de resultados da pesquisa para se usar nos
+            pedidos subsequentes para pedir mais dados.
+          schema:
+            type: integer
+        - name: limite
+          in: query
+          required: false
+          description: >-
+            Limite do número de registos por pagina. Por omissão serão
+            devolvidos 20.
+          schema:
+            type: integer
+        - name: ordem
+          in: query
+          required: false
+          description: >-
+            <p>Ordenação pretendida nos resultados da pesquisa. Por omissão é
+            aplicada ordenação por pontuação (ver Teoria da pontuação em
+            https://www.elastic.co/guide/en/elasticsearch/guide/current/scoring-theory.html)</p><p>A
+            ordenação pode ser utilizada respeitando a máscara
+            &quot;&lt;nomeColunaResultadoPesq&gt;,&lt;tipo de
+            ordenacao&gt;&quot;, onde vários critérios de ordenação poderão ser
+            separados por &quot;|&quot;.</p>exemplo de utilização:
+            nome,desc|descricao,asc<br/> ver schema Atributos da Mensagem
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PesquisarMensagensRequest'
+      responses:
+        '200':
+          description: Mensagens encontradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PesquisarMensagensResponse'
+        '401':
+          description: Não Autorizado (token OIDC expirado)
+        '403':
+          description: Não Autorizado
+        '410':
+          description: >-
+            Vista de dados da pesquisa expirou. Renviar nova pesquisa sem
+            vID.
+        '500':
+          description: Erro interno ao processar o pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+      security:
+      - HOS_TOKEN: []
+
+components:
+  securitySchemes:
+    HOS_TOKEN:
+      in: header
+      name: HOS_TOKEN
+      type: apiKey
+      description: Token da aplicação
+  schemas:
+
+    Erro:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "HOS-BASE-MENSAGEM-UNAUTHENTICATED"
+        detail:
+          type: string
+          example: "A mensagem pedida não foi encontrada"
+
+    Mensagem:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MensagemID'
+        atributos:
+          $ref: '#/components/schemas/MensagemAtributos'
+      required:
+      - id
+      - atributos
+
+    MensagemID:
+      type: object
+      properties:
+        chave:
+          type: string
+          example: HOS-3113
+        idioma:
+          type: string
+          example: pt
+      required:
+      - chave
+      - idioma
+
+    MensagemAtributos:
+      type: object
+      properties:
+        tipo:
+          type: string
+          enum: [info,success,warn,error]
+        conteudo:
+          type: string
+          minimum: 1
+          maximum: 200
+          example: "Registro gravado com sucesso!"
+        recurso:
+          type: string
+          description: "Mensagem de apoio em caso de erro indicando uma possível ação de mitigação do problema"
+          minimum: 1
+          maximum: 200
+          example: "Tente novamente!"
+        ativo:
+          type: boolean
+          example: true
+      required:
+      - tipo
+      - conteudo
+      - ativo
+
+    CriarMensagemRequest:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MensagemID'
+        atributos:
+          $ref: '#/components/schemas/MensagemAtributos'
+      required:
+      - id
+      - atributos
+
+    RegistrarMensagensRequest:
+      type: object
+      properties:
+        mensagens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriarMensagemRequest'
+
+    RegistarMensagensResponse:
+      type: object
+      properties:
+        registadas:
+          description: Mensagens registadas com sucesso
+          type: array
+          items:
+            $ref: '#/components/schemas/MensagemID'
+        jaExistentes:
+          description: Mensagens já existentes
+          type: array
+          items:
+            $ref: '#/components/schemas/MensagemID'
+        naoRegistadas:
+          description: Mensagens não registadas
+          type: array
+          items:
+            type: object
+            properties:
+              mensagem:
+                $ref: '#/components/schemas/MensagemID'
+              erro:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: 400
+                  detail:
+                    type: string
+                    example: Pedido Inválido
+
+    AlterarMensagemRequest:
+      type: object
+      properties:
+        tipo:
+          type: string
+          enum: [info,success,warn,error]
+          description: case insensitive
+        conteudo:
+          type: string
+          minimum: 1
+          maximum: 200
+          example: "Registro gravado com sucesso!"
+        recurso:
+          type: string
+          description: "Mensagem de apoio em caso de erro indicando uma possível ação de mitigação do problema"
+          minimum: 1
+          maximum: 200
+          example: "Tente novamente!"
+        ativo:
+          type: boolean
+          example: true
+
+    ConsultarMensagensRequest:
+      type: object
+      properties:
+        chavesMensagens:
+          type: array
+          items:
+            type: string
+
+    PesquisarMensagensRequest:
+      type: string
+      example: UTENTE ERROR WARN PT
+      description: Criterio de pesquisa a google.
+
+    PesquisarMensagensResponse:
+      type: object
+      properties:
+        mensagens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mensagem'
+        vistaId:
+          type: string
+          example: y32hr27y37r23ty07yt0237

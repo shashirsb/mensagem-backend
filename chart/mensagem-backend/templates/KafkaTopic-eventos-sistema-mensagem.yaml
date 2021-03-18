@@ -1,0 +1,11 @@
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: eventos-sistema-mensagem
+  labels:
+    strimzi.io/cluster: kafka
+spec:
+  partitions: 3
+  replicas: 1
+  config:
+    retention.ms: 604800000

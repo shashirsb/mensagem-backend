@@ -1,0 +1,140 @@
+variables:
+  LOGGER_LOCAL_PACKAGE: 'pt.min.saude.spms.hos.base'
+  KAFKA_LOGGER_BROKER_PORT: '9092'
+  KAFKA_LOGGER_BROKER_HOSTNAME: 'localhost'
+  LOGGER_SELECTED_LEVEL: 'ERROR'
+  LOGGER_SELECTED_APPENDER2: 'STDOUT'
+  LOGGER_SELECTED_APPENDER1: 'STDOUT'
+  KAFKA_LOGGER_APPENDER_NAME: 'kafkaAppender'
+  KAFKA_LOGGER_TOPIC: 'publisher-system-event'
+  LOGGER_LOCAL_LEVEL: 'DEBUG'
+
+stages:
+  - compile
+  - publish-api
+  - publish-image
+  #  - analysis
+  #  - test
+
+before_script:
+  - SBT_OPTS=" -Dsbt.override.build.repos=true "
+
+compile:mensagem-api:
+  stage: compile
+  image: s3spms/sbt-docker-builder:0.2.17
+  tags:
+    - docker
+  script:
+    - sbt --error -mem 500 mensagem-api/compile
+  artifacts:
+    expire_in: 30 mins
+    paths:
+      - mensagem-api/target/scala-2.12/classes/
+  except:
+    - tags
+
+compile:mensagem-impl:
+  stage: compile
+  image: s3spms/sbt-docker-builder:0.2.17
+  tags:
+    - docker
+  script:
+    - sbt --error -mem 500 mensagem-impl/compile
+  artifacts:
+    expire_in: 30 mins
+    paths:
+      - mensagem-impl/target/scala-2.12/classes/
+  except:
+    - tags
+
+#analysis:mensagem-api:
+#  stage: analysis
+#  tags:
+#    - docker
+#  script:
+#    - exec java -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.java.binaries=/hos/base-backend/mensagem-api/target/scala-2.12/classes -Djava.awt.headless=true -classpath $SONAR_SCANNER_JAR_PATH -Dscanner.home=$SONAR_SCANNER_HOME -Dsonar.login=$SONAR_TOKEN -Dproject.home="/hos/base-backend/mensagem-api/" org.sonarsource.scanner.cli.Main "$@"
+#    - wait
+#  dependencies:
+#    - compile:mensagem-api
+#  only:
+#    - development
+#
+
+#analysis:mensagem-impl:
+#  stage: analysis
+#  tags:
+#    - docker
+#  script:
+#    - exec java -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.java.binaries=/hos/base-backend/mensagem-impl/target/scala-2.12/classes -Djava.awt.headless=true -classpath $SONAR_SCANNER_JAR_PATH -Dscanner.home=$SONAR_SCANNER_HOME -Dsonar.login=$SONAR_TOKEN -Dproject.home="/hos/base-backend/mensagem-impl/" org.sonarsource.scanner.cli.Main "$@"
+#    - wait
+#  dependencies:
+#    - compile:mensagem-impl
+#  only:
+#    - development
+#
+
+#test:mensagem:
+#  stage: test
+#  tags:
+#      - docker
+#  script:
+#      - sbt --error -mem 500 mensagem-impl/test
+#  allow_failure: true
+#  dependencies:
+#      - compile:mensagem-api
+#  only:
+#    - development
+
+publish-api:mensagem-api:
+  stage: publish-api
+  image: s3spms/sbt-docker-builder:0.2.17
+  tags:
+    - docker
+  script:
+    - SBT_OPTS=" -Dsbt.override.build.repos=true "
+    - sbt --error -mem 500 mensagem-api/publish
+  allow_failure: true
+  dependencies:
+    - compile:mensagem-api
+  only:
+    - tags
+
+publish-image:mensagem-impl:
+  stage: publish-image
+  image: s3spms/sbt-docker-builder:0.2.17
+  tags:
+    - docker
+  services:
+    - docker:18.09-dind
+  script:
+    - PROJ_VERSION=`sbt -Dsbt.log.noformat=true mensagem-impl/version |tail -n1 |awk '{print $2;}'`
+    - export DOCKER_HOST=tcp://$HOSTNAME:2375/
+    - docker login ${NEW_DOCKER_REGISTRY} -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASSWORD}
+    - sbt --error -mem 2000 mensagem-impl/docker:publishLocal
+    - docker tag mensagem-impl:${VERSAO_MENSAGEM_BACKEND_CONTAINER} ${NEW_DOCKER_REGISTRY}/s3-spms-poc/mensagem-backend:${PROJ_VERSION}
+    - docker push ${NEW_DOCKER_REGISTRY}/s3-spms-poc/mensagem-backend:${PROJ_VERSION}
+  dependencies:
+    - compile:mensagem-impl
+  only:
+    - tags
+
+publish-chart:mensagem-backend:
+  stage: publish-image
+  image: s3spms/sbt-docker-builder:0.2.17
+  tags:
+    - docker
+  script:
+    - helm init -c
+    - cd chart
+    - helm lint mensagem-backend
+    - helm package mensagem-backend
+    - VERSAO_CHART=`helm inspect chart mensagem-backend |grep version |awk '{print $2}'`
+    - curl -s -u ${REGISTRY_USERNAME}:${REGISTRY_PASSWORD} -X DELETE ${CHART_MUSEUM_URL}/api/charts/mensagem-backend/${VERSAO_CHART}
+    - curl -s -u ${REGISTRY_USERNAME}:${REGISTRY_PASSWORD} -X POST --data-binary "@/builds/hos/base-backend/chart/mensagem-backend-${VERSAO_CHART}.tgz" ${CHART_MUSEUM_URL}/api/charts
+  allow_failure: true
+  dependencies:
+    - compile:mensagem-impl
+  only:
+    - tags
+
+

@@ -1,0 +1,103 @@
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 2,
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "tokenizer": "standard",
+          "filter": [
+            "standard",
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "mensagem_state": {
+      "properties": {
+        "id": {
+          "properties": {
+            "chave": {
+              "type": "keyword",
+              "copy_to": "all_mensagem"
+            },
+            "idioma": {
+              "type": "keyword",
+              "copy_to": "all_mensagem"
+            }
+          }
+        },
+        "atributos": {
+          "properties": {
+            "tipo": {
+              "type": "keyword",
+              "copy_to": "all_mensagem"
+            },
+            "conteudo": {
+              "type": "text",
+              "copy_to": "all_mensagem"
+            },
+            "recurso": {
+              "type": "text",
+              "copy_to": "all_mensagem"
+            },
+            "ativo": {
+              "type": "boolean",
+              "copy_to": "all_mensagem"
+            }
+          }
+        },
+        "seloAuditoria": {
+          "properties": {
+            "@Type": {
+              "type": "text"
+            },
+            "stampID": {
+              "type": "text",
+              "copy_to": "all_mensagem"
+            },
+            "userID": {
+              "type": "text"
+            },
+            "username": {
+              "type": "text"
+            },
+            "profile": {
+              "type": "text"
+            },
+            "device": {
+              "properties": {
+                "id": {
+                  "type": "text"
+                },
+                "mac": {
+                  "type": "text"
+                },
+                "hostname": {
+                  "type": "text"
+                }
+              }
+            },
+            "instant": {
+              "type": "text"
+            }
+          }
+        },
+        "userUltAtualiz": {
+          "type": "text",
+          "copy_to": "all_mensagem"
+        },
+        "dtUltAtualiz": {
+          "type": "text",
+          "copy_to": "all_mensagem"
+        },
+        "all_mensagem": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mensagem-backend.fullname" . }}
+  labels:
+    app: {{ include "mensagem-backend.name" . }}
+    app.kubernetes.io/name: {{ include "mensagem-backend.name" . }}
+    helm.sh/chart: {{ include "mensagem-backend.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "mensagem-backend.name" . }}
+      app.kubernetes.io/name: {{ include "mensagem-backend.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "mensagem-backend.name" . }}
+        actorSystemName: {{ .Values.servico.akka.actorSystem }}
+        app.kubernetes.io/name: {{ include "mensagem-backend.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: kamon
+              containerPort: 9095
+              protocol: TCP
+            - name: management
+              containerPort: 8558
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: "/ready"
+              port: management
+            periodSeconds: 10
+            failureThreshold: 10
+            initialDelaySeconds: 20
+          livenessProbe:
+            httpGet:
+              path: "/alive"
+              port: management
+            periodSeconds: 10
+            failureThreshold: 10
+            initialDelaySeconds: 20
+          envFrom:
+            - configMapRef:
+                name: {{ include "mensagem-backend.fullname" . }}-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -1,0 +1,261 @@
+replicaCount: 2
+
+k8s:
+  cluster:
+    suffix: "svc.cluster.local"                 
+
+hos:
+  obter:
+    token:
+      timeout: 15
+
+instalacao:
+  nome: "dev-s3-adt"                 
+  crypto:
+    chavePublica: "SEM-VALOR-CHART"
+    chavePublicaInterServico: "SEM-VALOR-CHART"
+    chavePrivada: "SEM-VALOR-CHART"
+    chavePrivadaInterServico: "SEM-VALOR-CHART"
+    keyCountThirdParty : "0"
+    nomeInstalacaoThirdParty01 : ""
+    chaveInstalacaoThirdParty01 : ""
+    nomeInstalacaoThirdParty02: ""
+    chaveInstalacaoThirdParty02: ""
+    nomeInstalacaoThirdParty03: ""
+    chaveInstalacaoThirdParty03: ""
+    nomeInstalacaoThirdParty04: ""
+    chaveInstalacaoThirdParty04: ""
+    nomeInstalacaoThirdParty05: ""
+    chaveInstalacaoThirdParty05: ""
+    nomeInstalacaoThirdParty06: ""
+    chaveInstalacaoThirdParty06: ""
+    nomeInstalacaoThirdParty07: ""
+    chaveInstalacaoThirdParty07: ""
+    nomeInstalacaoThirdParty08: ""
+    chaveInstalacaoThirdParty08: ""
+    nomeInstalacaoThirdParty09: ""
+    chaveInstalacaoThirdParty09: ""
+    nomeInstalacaoThirdParty10: ""
+    chaveInstalacaoThirdParty10: ""
+    nomeInstalacaoThirdParty11: ""
+    chaveInstalacaoThirdParty11: ""
+    nomeInstalacaoThirdParty12: ""
+    chaveInstalacaoThirdParty12: ""
+    nomeInstalacaoThirdParty13: ""
+    chaveInstalacaoThirdParty13: ""
+    nomeInstalacaoThirdParty14: ""
+    chaveInstalacaoThirdParty14: ""
+    nomeInstalacaoThirdParty15 : ""
+    chaveInstalacaoThirdParty15 : ""
+    nomeInstalacaoThirdParty16: ""
+    chaveInstalacaoThirdParty16: ""
+    nomeInstalacaoThirdParty17: ""
+    chaveInstalacaoThirdParty17: ""
+    nomeInstalacaoThirdParty18: ""
+    chaveInstalacaoThirdParty18: ""
+    nomeInstalacaoThirdParty19: ""
+    chaveInstalacaoThirdParty19: ""
+    nomeInstalacaoThirdParty20: ""
+    chaveInstalacaoThirdParty20: ""
+    nomeInstalacaoThirdParty21: ""
+    chaveInstalacaoThirdParty21: ""
+    nomeInstalacaoThirdParty22: ""
+    chaveInstalacaoThirdParty22: ""
+    nomeInstalacaoThirdParty23: ""
+    chaveInstalacaoThirdParty23: ""
+    nomeInstalacaoThirdParty24: ""
+    chaveInstalacaoThirdParty24: ""
+    nomeInstalacaoThirdParty25: ""
+    chaveInstalacaoThirdParty25: ""
+    nomeInstalacaoThirdParty26: ""
+    chaveInstalacaoThirdParty26: ""
+    nomeInstalacaoThirdParty27: ""
+    chaveInstalacaoThirdParty27: ""
+    nomeInstalacaoThirdParty28: ""
+    chaveInstalacaoThirdParty28: ""
+    nomeInstalacaoThirdParty29: ""
+    chaveInstalacaoThirdParty29: ""
+    nomeInstalacaoThirdParty30: ""
+    chaveInstalacaoThirdParty30: ""
+    nomeInstalacaoThirdParty31: ""
+    chaveInstalacaoThirdParty31: ""
+    nomeInstalacaoThirdParty32: ""
+    chaveInstalacaoThirdParty32: ""
+    nomeInstalacaoThirdParty33: ""
+    chaveInstalacaoThirdParty33: ""
+    nomeInstalacaoThirdParty34: ""
+    chaveInstalacaoThirdParty34: ""
+    nomeInstalacaoThirdParty35: ""
+    chaveInstalacaoThirdParty35: ""
+    nomeInstalacaoThirdParty36: ""
+    chaveInstalacaoThirdParty36: ""
+    nomeInstalacaoThirdParty37: ""
+    chaveInstalacaoThirdParty37: ""
+    nomeInstalacaoThirdParty38: ""
+    chaveInstalacaoThirdParty38: ""
+    nomeInstalacaoThirdParty39: ""
+    chaveInstalacaoThirdParty39: ""
+    nomeInstalacaoThirdParty40: ""
+    chaveInstalacaoThirdParty40: ""
+    nomeInstalacaoThirdParty41: ""
+    chaveInstalacaoThirdParty41: ""
+    nomeInstalacaoThirdParty42: ""
+    chaveInstalacaoThirdParty42: ""
+    nomeInstalacaoThirdParty43: ""
+    chaveInstalacaoThirdParty43: ""
+    nomeInstalacaoThirdParty44: ""
+    chaveInstalacaoThirdParty44: ""
+    nomeInstalacaoThirdParty45: ""
+    chaveInstalacaoThirdParty45: ""
+    nomeInstalacaoThirdParty46: ""
+    chaveInstalacaoThirdParty46: ""
+    nomeInstalacaoThirdParty47: ""
+    chaveInstalacaoThirdParty47: ""
+    nomeInstalacaoThirdParty48: ""
+    chaveInstalacaoThirdParty48: ""
+    nomeInstalacaoThirdParty49: ""
+    chaveInstalacaoThirdParty49: ""
+    nomeInstalacaoThirdParty50: ""
+    chaveInstalacaoThirdParty50: ""
+  oidc: #apenas para acesso-backend
+    provider:
+      name: "SEM-VALOR-CHART"
+      configURI: "SEM-VALOR-CHART"
+  auth:
+    token:
+      nome: "HOS_TOKEN"
+      maxAge: 200 #seconds - used to calculate JWT token expiry
+    jwkey:
+      refresh: 1 #hours
+    meta: #authorization meta information
+      refresh: 30 #minutes
+
+plataforma:
+  elastic:
+    hostname: "SEM-VALOR-CHART"
+    port: "9200"
+    ssl: true
+    username: "SEM-VALOR-CHART"
+    password: "SEM-VALOR-CHART"
+  cassandra:
+    keyspace:
+      prefix: "SEM-VALOR-CHART"
+  kafka:
+    serviceName: "SEM-VALOR-CHART"
+
+proxy:
+  use: false
+  host: "172.26.3.10"
+  port: "8080"
+  noProxy: "127.0.0.1|localhost|(.*)\\.svc\\.cluster\\.local"
+
+
+servico:
+  cors_allowed_origins: "."                                     #NOT NEEDED
+  mensagemBackendHost: "SEM-VALOR-CHART"                       #NOT NEEDED
+  mensagemBackendPort: "SEM-VALOR-CHART"                       #NOT NEEDED
+  akka:
+    actorSystem: "mensagem-backend"
+    cluster:
+      requiredContactPointsNr: "1"                #NOT NEEDED
+  memcached:
+    enabled: false
+    baseHostname: "memcached-%s.memcached"                                                    
+    port: 11211                                                    
+    nodeCount: 3                                                    
+    namespace: "dev-local-s3"
+  ehcache:
+    maxSize: 100 #MiB
+    maxObjGraphSize: 10                                                    
+  eccache:
+    expiry: 30 #seconds                                                    
+    maxEntries: 100000                                                    
+  cassandra:
+    snapshot:
+      replicationFactor: 1                                                    
+    journal:
+      replicationFactor: 1                                                    
+      eventualConsistency:
+        delay: 1s                                                    
+    readSide:
+      replicationFactor: 1                                                    
+      version: 0                                                    
+  read:
+    side:
+      mensagem:
+        offset: "mensagem_read_side_offset_1"
+      elasticsearch:
+        versao: "1"                                                    
+  lagom:
+    persistence:
+      askTimeout: "10s"
+
+
+
+#  kafka:
+#    bootstrapservers: "failmeonpurpose:0"
+#    offsetResetConfig: "earliest"
+#    broker: "failmeonpurpose:0"
+
+
+javaOpts: "-Xmx512M -Dsun.net.inetaddr.ttl=5 -Dnetworkaddress.cache.ttl=5 -Dconfig.resource=prod-application.conf"
+#javaOpts: "' -Xmx400M -XX:+AlwaysPreTouch '"
+applicationSecret: "«$!whatever=#%"                                   
+
+logger:
+  kafka:
+    appenderName: "kafkaAppender"
+    topic: "mensagem-eventos-sistema"
+    brokerHostname: "localhost"
+    brokerPort: "9092"
+  kamonLevel: "INFO"
+  playLevel: "ERROR"
+  akkaLevel: "ERROR"
+  akkaDnsLevel: "ERROR"
+  akkaClusterLevel: "ERROR"
+  alpakkaLevel: "ERROR"
+  lagomLevel: "ERROR"
+  cassandraLevel: "ERROR"
+  localPackage: "pt.min.saude.spms.hos.mensagem"
+  localLevel: "ERROR"
+  selectedLevel: "ERROR"
+  appender1: "STDOUT"                                                         
+  appender2: "STDOUT"
+  customPackage1: ""
+  customLevel1: ""
+  customPackage2: ""
+  customLevel2: ""
+  customPackage3: ""
+  customLevel3: ""
+  customPackage4: ""
+  customLevel4: ""
+  customPackage5: ""
+  customLevel5: ""
+
+image:
+  repository: docker-registry.devops-spms.xyz/hos/mensagem-backend
+  tag: 2.0.3-SNAPSHOT
+#  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+#  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
