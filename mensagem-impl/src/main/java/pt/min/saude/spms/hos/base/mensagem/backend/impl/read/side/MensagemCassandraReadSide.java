@@ -13,7 +13,7 @@ import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import slick.jdbc.OracleProfile.api.*;
+import slick.jdbc.OracleProfile.api._;
 
 @Singleton
 public class MensagemCassandraReadSide extends BaseCassandraReadSide<MensagemState> {
