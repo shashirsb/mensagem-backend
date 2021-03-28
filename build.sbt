@@ -96,6 +96,7 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
     ),
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
+    libraryDependencies ++= Seq(javaJdbc),
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.api"
@@ -103,6 +104,10 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
 
 lazy val `mensagem-impl` = (project in file("mensagem-impl"))
   .enablePlugins(LagomJava, BuildInfoPlugin)
+  .settings(resolvers += "OAM 11g" at "https://maven.oracle.com",
+    credentials += Credentials("OAM 11g", "login.oracle.com", "shashi.rsb@hotmail.com", "Hitmewell123"),
+    libraryDependencies += "com.oracle.ojdbc" % "ojdbc8" % "19.3.0.0"
+    )
   .settings(
     version := mensagemVersion,
     lagomKafkaEnabled in ThisBuild := true,
@@ -111,6 +116,8 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
     libraryDependencies ++= Seq(
       lagomJavadslJackson,
       lagomJavadslPersistenceCassandra,
+      lagomScaladslPersistenceJdbc,
+      javaJdbc,
       lagomJavadslKafkaBroker,
       lagomLogback,
       filters,
@@ -127,6 +134,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
     ),
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
+    libraryDependencies ++= Seq(javaJdbc),
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.impl"
