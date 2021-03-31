@@ -116,7 +116,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
     libraryDependencies ++= Seq(
       lagomJavadslJackson,
       lagomJavadslPersistenceCassandra,
-      lagomScaladslPersistenceJdbc,
+      lagomJavadslPersistenceJdbc,
       javaJdbc,
       lagomJavadslKafkaBroker,
       lagomLogback,

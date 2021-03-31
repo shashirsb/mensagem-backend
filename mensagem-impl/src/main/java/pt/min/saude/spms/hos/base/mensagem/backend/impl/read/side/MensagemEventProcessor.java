@@ -6,6 +6,7 @@ import com.lightbend.lagom.javadsl.persistence.AggregateEventTag;
 import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 import com.lightbend.lagom.javadsl.persistence.cassandra.CassandraReadSide;
 
+
 import com.typesafe.config.Config;
 import io.vavr.Lazy;
 import io.vavr.Tuple2;
