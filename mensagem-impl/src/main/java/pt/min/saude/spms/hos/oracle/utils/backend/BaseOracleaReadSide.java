@@ -5,10 +5,6 @@
    
    protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log;
    
-   import com.lightbend.lagom.javadsl.persistence.ReadSide;
-import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
-import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
-import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
 
    protected final com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession;
    
