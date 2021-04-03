@@ -11,15 +11,6 @@ import pt.min.saude.spms.hos.service.utils.backend.BaseModule;
 import pt.min.saude.spms.hos.service.utils.backend.DefaultMessages;
 import pt.min.saude.spms.hos.service.utils.backend.provision.ProvisionManager;
 
-import com.lightbend.lagom.internal.javadsl.persistence.jdbc.SlickProvider;
-import com.lightbend.lagom.internal.javadsl.persistence.jdbc.JavadslJdbcOffsetStore;
-import com.lightbend.lagom.internal.javadsl.persistence.jdbc.JdbcReadSideImpl;
-import com.lightbend.lagom.internal.javadsl.persistence.jdbc.JdbcSessionImpl;
-import com.lightbend.lagom.internal.javadsl.persistence.jdbc.SlickProvider;
-import com.lightbend.lagom.internal.persistence.jdbc.SlickOffsetStore;
-import com.lightbend.lagom.javadsl.persistence.jdbc.JdbcReadSide;
-import com.lightbend.lagom.javadsl.persistence.jdbc.JdbcSession;
-
 public class MensagemModule extends BaseModule implements ServiceGuiceSupport {
     @Override
     protected void configure() {
@@ -31,7 +22,5 @@ public class MensagemModule extends BaseModule implements ServiceGuiceSupport {
         bind(MensagemLoader.class).asEagerSingleton();
 //        bindClient(AcessoServiceSK.class);
         bindService(MensagemService.class, MensagemServiceImpl.class);
-        bind(SlickProvider.class).toProvider(GuiceSlickProvider.class);
-        bind(SlickOffsetStore.class).to(JavadslJdbcOffsetStore.class);
     }
 }
