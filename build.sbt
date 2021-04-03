@@ -52,6 +52,7 @@ val junitInterface = Seq("org.junit.platform" % "junit-platform-runner" % "1.3.2
   "net.aichler" % "jupiter-interface" % "0.7.0" % Test)
 val lagomAkkaServiceDiscovery = "com.lightbend.lagom" %% "lagom-javadsl-akka-discovery-service-locator" % LagomVersion.current
 val akkaDiscoverK8sApi = "com.lightbend.akka.discovery" %% "akka-discovery-kubernetes-api" % "1.0.0"
+val hibernate = "org.hibernate" % "hibernate-core" % "5.4.27.Final"
 
 lazy val jacocoSettings =
   jacocoReportSettings := JacocoReportSettings(
