@@ -117,6 +117,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomJavadslJackson,
       lagomJavadslPersistenceCassandra,
       lagomJavadslPersistenceJdbc,
+      lagomJavadslPersistenceJpa,
       javaJdbc,
       lagomJavadslKafkaBroker,
       lagomLogback,

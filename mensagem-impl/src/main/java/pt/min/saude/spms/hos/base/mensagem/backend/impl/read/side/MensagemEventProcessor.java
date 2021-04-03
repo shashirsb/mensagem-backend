@@ -4,7 +4,12 @@ import akka.Done;
 import com.datastax.driver.core.BoundStatement;
 import com.lightbend.lagom.javadsl.persistence.AggregateEventTag;
 import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
-import com.lightbend.lagom.javadsl.persistence.cassandra.CassandraReadSide;
+
+
+import com.lightbend.lagom.javadsl.persistence.ReadSide;
+import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
+import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
+import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
 
 
 import com.typesafe.config.Config;
@@ -35,27 +40,27 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     private final LogBuilder log = LogBuilder.getLogger(MensagemEventProcessor.class);
 
-    private final CassandraReadSide readSideSupport;
+    private final JpaReadSide readSideSupport;
 
-    private final MensagemCassandraReadSide cassandra;
+    private final MensagemOracleReadSide oracle;
     private final MensagemElasticReadSide elasticsearch;
 
     private final Config configuration;
 
     @Inject
-    public MensagemEventProcessor(final CassandraReadSide readSideSupport,
-                                  final MensagemCassandraReadSide cassandra,
+    public MensagemEventProcessor(final JpaReadSide readSideSupport,
+                                  final MensagemOracleReadSide oracle,
                                   final MensagemElasticReadSide elasticsearch,
                                   Config configuration) {
         this.readSideSupport = readSideSupport;
-        this.cassandra = cassandra;
+        this.oracle = oracle;
         this.elasticsearch = elasticsearch;
         this.configuration = configuration;
     }
 
     @Override
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
-        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.cassandra.read.side.processor.offset"))
+        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.oracle.read.side.processor.offset"))
                 .setGlobalPrepare(this::globalPrepare)
                 .setPrepare(this::prepare)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
@@ -75,8 +80,8 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
         return Future
                 .sequence(Arrays.asList(
-                        cassandra.setup()
-                                .onSuccess(done -> log.of(TRACE, "Setup mensagem cassandra readside bem sucedido", context)),
+                        oracle.setup()
+                                .onSuccess(done -> log.of(TRACE, "Setup mensagem oracle readside bem sucedido", context)),
                         elasticsearch.setup()
                                 .onSuccess(done -> log.of(TRACE, "Setup mensagem elasticsearch readside bem sucedido", context))
                 ))
@@ -87,7 +92,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     private CompletionStage<Done> prepare(AggregateEventTag<MensagemEvent> tag) {
         Lazy<String> context = Lazy.of(() -> "MensagemEventProcessor.prepare()");
-        return cassandra.prepare()
+        return oracle.prepare()
                 .whenComplete((r,t) -> Option.of(t).forEach(failure ->  log.of(ERROR, context, Option.none(), failure)));
     }
 
@@ -104,7 +109,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
                     Stamp stamp = mensagemCreated.getStamp();
                     MensagemState newState = mensagemCreated.getMensagemState();
                     return elasticsearch.upsert(newState, Option.of(stamp))
-                            .zip(cassandra.upsert(id, newState, Option.of(stamp)))
+                            .zip(oracle.upsert(id, newState, Option.of(stamp)))
                             .map(Tuple2::_2)
                             .map(Arrays::asList);
                 })
@@ -132,7 +137,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
                     return futureNewState.flatMap(
                             newState -> elasticsearch.upsert(newState, Option.of(stamp))
-                                    .zip(cassandra.upsert(id, newState, Option.of(stamp)))
+                                    .zip(oracle.upsert(id, newState, Option.of(stamp)))
                                     .map(Tuple2::_2)
                                     .map(Arrays::asList)
                     );
@@ -145,7 +150,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
     //------------------------------------------------Utils-------------------------------------------------------------
 
     private Future<MensagemState> state(final String id, Option<Stamp> stamp) {
-        return cassandra.select(id, stamp).map(
+        return oracle.select(id, stamp).map(
                 optionState -> optionState.getOrElse(MensagemState.initialState())
         );
     }
