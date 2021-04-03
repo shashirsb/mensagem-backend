@@ -122,6 +122,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomJavadslKafkaBroker,
       lagomLogback,
       filters,
+      hibernate,
       commonClasses,
       serviceUtils,
       elasticUtils,
