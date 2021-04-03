@@ -106,7 +106,7 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
 lazy val `mensagem-impl` = (project in file("mensagem-impl"))
   .enablePlugins(LagomJava, BuildInfoPlugin)
   .settings(resolvers += "OAM 11g" at "https://maven.oracle.com",
-    credentials += Credentials("OAM 11g", "login.oracle.com", "shashi.rsb@hotmail.com", "Hitmewell123"),
+    credentials += Credentials("OAM 11g", "login.oracle.com/mysso/signon.jsp", "shashi.rsb@hotmail.com", "Hitmewell123"),
     libraryDependencies += "com.oracle.ojdbc" % "ojdbc8" % "19.3.0.0"
     )
   .settings(
