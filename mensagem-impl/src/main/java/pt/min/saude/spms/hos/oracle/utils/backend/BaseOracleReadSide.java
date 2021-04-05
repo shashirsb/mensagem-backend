@@ -16,7 +16,7 @@
    
    protected com.datastax.driver.core.PreparedStatement upsertStatement;
    
-   public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {}
+   protected  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {}
    
   //  public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, io.vavr.control.Option<java.lang.String> tableName, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {
   //  }
