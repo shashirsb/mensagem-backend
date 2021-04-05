@@ -7,7 +7,7 @@ import io.vavr.concurrent.Future;
 import io.vavr.control.Option;
 import pt.min.saude.spms.hos.base.mensagem.backend.impl.schema.MensagemState;
 import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
-import pt.min.saude.spms.hos.oracle.utils.backend.BaseOracleReadSide;
+import pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side.BaseOracleReadSide;
 
 
 import javax.inject.Inject;
