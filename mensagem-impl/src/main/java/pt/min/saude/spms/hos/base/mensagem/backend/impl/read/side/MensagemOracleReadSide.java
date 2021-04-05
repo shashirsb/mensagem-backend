@@ -44,27 +44,27 @@ public class MensagemOracleReadSide  {
 
     //--------------------------------------------Operations------------------------------------------------------------
 
-    @Override
+  
     public Future<Boolean> isLatestVersion() {
         return null;
     }
 
-    @Override
+
     public Future<Done> upgrade() {
         return null;
     }
 
-    @Override
+
     public Future<Done> downgrade() {
         return null;
     }
 
-    @Override
+
     public Future<Done> rollback() {
         return null;
     }
 
-    @Override
+
     public Future<Done> clearRollbackData() {
         return null;
     }
