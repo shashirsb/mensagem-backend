@@ -32,14 +32,12 @@ public class MensagemOracleReadSide  {
     public MensagemOracleReadSide(final Config configuration,
                                      final JpaSession jpaSession,
                                      final ActorSystem actorSystem) {
-        super(
                 LogBuilder.getLogger(MensagemOracleReadSide.class),
                 configuration,
                 jpaSession,
                 Option.of("implementation.oracle.read.side.keyspace.mensagem"),
                 actorSystem,
                 MensagemState.class
-        );
     }
 
     //--------------------------------------------Operations------------------------------------------------------------
