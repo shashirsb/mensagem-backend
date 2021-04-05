@@ -150,7 +150,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
     //------------------------------------------------Utils-------------------------------------------------------------
 
     private Future<MensagemState> state(final String id, Option<Stamp> stamp) {
-        return oracle.select.select(id, stamp).map(
+        return oracle.select(id, stamp).map(
                 optionState -> optionState.getOrElse(MensagemState.initialState())
         );
     }
