@@ -5,7 +5,6 @@ import com.datastax.driver.core.BoundStatement;
 import com.lightbend.lagom.javadsl.persistence.AggregateEventTag;
 import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 
-
 import com.lightbend.lagom.javadsl.persistence.ReadSide;
 import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
@@ -41,6 +40,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
     private final LogBuilder log = LogBuilder.getLogger(MensagemEventProcessor.class);
 
     private final JpaReadSide readSideSupport;
+    private final JpaSession jpaSession;
 
     private final MensagemOracleReadSide oracle;
     private final MensagemElasticReadSide elasticsearch;
