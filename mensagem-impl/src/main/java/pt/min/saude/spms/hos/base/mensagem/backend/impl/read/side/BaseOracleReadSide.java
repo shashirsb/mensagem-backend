@@ -3,7 +3,7 @@
  package pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side;
  public abstract class BaseOracleReadSide<T> implements pt.min.saude.spms.hos.common.classes.backend.Upgradable {
    
-   protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log=null;
+   protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log=;
    
    protected final com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession;
    protected final java.lang.String oracleDatabase;
@@ -16,8 +16,7 @@
    
    protected com.datastax.driver.core.PreparedStatement upsertStatement;
    
-   public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {
-   }
+   public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {}
    
   //  public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, io.vavr.control.Option<java.lang.String> tableName, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {
   //  }
