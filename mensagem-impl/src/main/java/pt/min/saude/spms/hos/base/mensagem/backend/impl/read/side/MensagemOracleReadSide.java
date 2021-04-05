@@ -37,6 +37,7 @@ public class MensagemOracleReadSide extends BaseOracleaReadSide<MensagemState> {
                 configuration,
                 jpaSession,
                 Option.of("implementation.oracle.read.side.keyspace.mensagem"),
+                Option.of("implementation.oracle.read.side.keyspace.mensagem"),
                 actorSystem,
                 MensagemState.class
         );
