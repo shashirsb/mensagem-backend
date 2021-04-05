@@ -25,6 +25,7 @@ public class MensagemOracleReadSide extends BaseOracleReadSide<MensagemState> {
                                      final JpaSession jpaSession,
                                      final ActorSystem actorSystem) {
         super(
+            
                 LogBuilder.getLogger(MensagemOracleReadSide.class),
                 configuration,
                 jpaSession,
