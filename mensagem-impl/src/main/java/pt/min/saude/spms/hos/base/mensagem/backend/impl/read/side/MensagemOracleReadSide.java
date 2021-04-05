@@ -1,32 +1,24 @@
 package pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
+import com.typesafe.config.Config;
+
 import akka.Done;
 import akka.actor.ActorSystem;
-import com.typesafe.config.Config;
 import io.vavr.concurrent.Future;
 import io.vavr.control.Option;
 import pt.min.saude.spms.hos.base.mensagem.backend.impl.schema.MensagemState;
 import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
-import pt.min.saude.spms.hos.oracle.utils.backendBaseOracleaReadSide;
-
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-
-import com.lightbend.lagom.javadsl.persistence.ReadSide;
-import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
-import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
-import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
+import pt.min.saude.spms.hos.oracle.utils.backend.BaseOracleReadSide;
 
 
 
 
 @Singleton
-public class MensagemOracleReadSide extends BaseOracleaReadSide<MensagemState> {
+public class MensagemOracleReadSide extends BaseOracleReadSide<MensagemState> {
 
     @Inject
     public MensagemOracleReadSide(final Config configuration,
