@@ -26,7 +26,7 @@ import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
 
 
 @Singleton
-public class MensagemOracleReadSide extends BaseOracleaReadSide<MensagemState> {
+public class MensagemOracleReadSide  {
 
     @Inject
     public MensagemOracleReadSide(final Config configuration,
@@ -36,7 +36,6 @@ public class MensagemOracleReadSide extends BaseOracleaReadSide<MensagemState> {
                 LogBuilder.getLogger(MensagemOracleReadSide.class),
                 configuration,
                 jpaSession,
-                Option.of("implementation.oracle.read.side.keyspace.mensagem"),
                 Option.of("implementation.oracle.read.side.keyspace.mensagem"),
                 actorSystem,
                 MensagemState.class
