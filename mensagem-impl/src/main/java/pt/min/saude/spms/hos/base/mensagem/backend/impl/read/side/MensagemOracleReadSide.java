@@ -7,7 +7,7 @@ import io.vavr.concurrent.Future;
 import io.vavr.control.Option;
 import pt.min.saude.spms.hos.base.mensagem.backend.impl.schema.MensagemState;
 import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
-import pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side.BaseOracleReadSide;
+import pt.min.saude.spms.hos.oracle.utils.backend.BaseOracleaReadSide;
 
 
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
 
 
 @Singleton
-public class MensagemOracleReadSide extends BaseOracleReadSide<MensagemState> {
+public class MensagemOracleReadSide extends BaseOracleaReadSide<MensagemState> {
 
     @Inject
     public MensagemOracleReadSide(final Config configuration,

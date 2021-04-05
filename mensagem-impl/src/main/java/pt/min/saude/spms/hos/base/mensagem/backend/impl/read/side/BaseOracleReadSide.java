@@ -3,7 +3,7 @@
  package pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side;
  public abstract class BaseOracleReadSide<T> implements pt.min.saude.spms.hos.common.classes.backend.Upgradable {
    
-   protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log=;
+   protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log;
    
    protected final com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession;
    protected final java.lang.String oracleDatabase;
