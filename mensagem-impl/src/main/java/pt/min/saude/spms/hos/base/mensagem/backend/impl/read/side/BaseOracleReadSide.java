@@ -2,9 +2,6 @@
  // Implementation of methods is unavailable.
  package pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side;
 
-
- import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
-
  public abstract class BaseOracleReadSide<T> implements pt.min.saude.spms.hos.common.classes.backend.Upgradable {
    
    protected final pt.min.saude.spms.hos.common.classes.backend.LogBuilder log;
