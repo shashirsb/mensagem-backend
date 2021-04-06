@@ -14,20 +14,21 @@
    
    protected final java.lang.Class<T> stateClass;
    
-   protected com.datastax.driver.core.PreparedStatement upsertStatement;
+   //protected com.datastax.driver.core.PreparedStatement upsertStatement;
+  protected java.sql.PreparedStatement upsertStatement;
    
-   protected  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {}
+  protected  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {}
    
-  //  public  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, io.vavr.control.Option<java.lang.String> tableName, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {
+  protected  BaseOracleReadSide(pt.min.saude.spms.hos.common.classes.backend.LogBuilder log, com.typesafe.config.Config configuration, com.lightbend.lagom.javadsl.persistence.jpa.JpaSession jpaSession, io.vavr.control.Option<java.lang.String> configKeyOracleKeyspace, io.vavr.control.Option<java.lang.String> tableName, akka.actor.ActorSystem actorSystem, java.lang.Class<T> stateClass) {
+    }
+   
+  //  public  io.vavr.concurrent.Future<com.datastax.driver.core.BoundStatement> upsert(java.lang.String id, T object, pt.min.saude.spms.hos.common.classes.backend.LogPrincipal principal) {
+  //    return null;
   //  }
    
-   public  io.vavr.concurrent.Future<com.datastax.driver.core.BoundStatement> upsert(java.lang.String id, T object, pt.min.saude.spms.hos.common.classes.backend.LogPrincipal principal) {
-     return null;
-   }
-   
-   public  io.vavr.concurrent.Future<com.datastax.driver.core.BoundStatement> upsert(java.lang.String id, T object, io.vavr.control.Option<pt.min.saude.spms.hos.common.classes.backend.Stamp> stamp) {
-     return null;
-   }
+  //  public  io.vavr.concurrent.Future<com.datastax.driver.core.BoundStatement> upsert(java.lang.String id, T object, io.vavr.control.Option<pt.min.saude.spms.hos.common.classes.backend.Stamp> stamp) {
+  //    return null;
+  //  }
    
    public  io.vavr.concurrent.Future<io.vavr.control.Option<T>> select(java.lang.String id, pt.min.saude.spms.hos.common.classes.backend.LogPrincipal logPrincipal) {
      return null;

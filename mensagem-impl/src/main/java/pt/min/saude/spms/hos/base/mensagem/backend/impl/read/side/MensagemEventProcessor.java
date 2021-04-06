@@ -31,6 +31,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
+import com.google.common.collect.ImmutableMap;
 
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.ERROR;
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.TRACE;
@@ -61,11 +65,15 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
     @Override
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
         return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.oracle.read.side.processor.offset"))
-                .setGlobalPrepare(this::globalPrepare)
+                .setGlobalPrepare(this::createSchema)
                 .setPrepare(this::prepare)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
                 .setEventHandler(MensagemUpdated.class, this::handleUpdatedMensagem)
                 .build();
+    }
+
+    private void createSchema(@SuppressWarnings("unused") EntityManager ignored) {
+        Persistence.generateSchema("default", ImmutableMap.of("hibernate.hbm2ddl.auto", "update"));
     }
 
     @Override

@@ -54,6 +54,18 @@ val lagomAkkaServiceDiscovery = "com.lightbend.lagom" %% "lagom-javadsl-akka-dis
 val akkaDiscoverK8sApi = "com.lightbend.akka.discovery" %% "akka-discovery-kubernetes-api" % "1.0.0"
 val hibernate = "org.hibernate" % "hibernate-core" % "5.4.27.Final"
 
+val jpaApi                 = "org.hibernate.javax.persistence" % "hibernate-jpa-2.1-api"   % "1.0.0.Final"
+val validationApi          = "javax.validation"                % "validation-api"          % "1.1.0.Final"
+
+val akkaPersistenceQuery = "com.typesafe.akka" %% "akka-persistence-query" % LagomVersion.akka
+val akkaStreamTestkit    = "com.typesafe.akka" %% "akka-stream-testkit"    % LagomVersion.akka
+
+val akkaDiscoveryKubernetesApi = "com.lightbend.akka.discovery" %% "akka-discovery-kubernetes-api"                % "1.0.9"
+val lagomJavadslAkkaDiscovery  = "com.lightbend.lagom"          %% "lagom-javadsl-akka-discovery-service-locator" % LagomVersion.current
+
+val playJavaClusterSharding = "com.typesafe.play" %% "play-java-cluster-sharding" % LagomVersion.play
+
+
 lazy val jacocoSettings =
   jacocoReportSettings := JacocoReportSettings(
     formats = Seq(
