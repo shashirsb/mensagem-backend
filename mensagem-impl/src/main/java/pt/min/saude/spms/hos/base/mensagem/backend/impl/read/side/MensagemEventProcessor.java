@@ -47,7 +47,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     @Inject
     public MensagemEventProcessor(final JpaReadSide readSideSupport,
-                                  final MensagemCasMensagemOracleReadSidesandraReadSide oracle,
+                                  final MensagemOracleReadSide oracle,
                                   final MensagemElasticReadSide elasticsearch,
                                   Config configuration) {
         this.readSideSupport = readSideSupport;
