@@ -145,6 +145,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
     libraryDependencies += "javax.persistence" % "javax.persistence-api" % "2.2",
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
+    libraryDependencies += lagomJavadslPersistenceJpa,
     libraryDependencies ++= Seq(javaJdbc),
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),

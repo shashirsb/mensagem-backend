@@ -8,6 +8,8 @@ import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 import com.lightbend.lagom.javadsl.persistence.ReadSide;
 import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
 import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
+import com.lightbend.lagom.javadsl.persistence.jdbc.JdbcSession;
+import com.lightbend.lagom.javadsl.persistence.jdbc.JdbcReadSide;
 
 import com.typesafe.config.Config;
 import io.vavr.Lazy;
@@ -30,6 +32,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
+import com.google.common.collect.ImmutableMap;
+import com.lightbend.lagom.javadsl.persistence.AggregateEventTag;
+import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
+import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
+import org.pcollections.PSequence;
+
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -60,16 +72,22 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
         this.configuration = configuration;
     }
 
-    @Override
+   
 
+    @Override
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
-        return readSideSupport.<MensagemEvent>builder("mensagem_offset_1")
-                .setGlobalPrepare(this::globalPrepare)
-                .setPrepare(this::prepare)
+        return readSideSupport.<MensagemEvent>builder("mensagem_offset_1")     
+                .setGlobalPrepare(this::createSchema)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
                 .setEventHandler(MensagemUpdated.class, this::handleUpdatedMensagem)
                 .build();
     }
+
+    private void createSchema(@SuppressWarnings("unused") EntityManager ignored) {
+        Persistence.generateSchema("default", ImmutableMap.of("hibernate.hbm2ddl.auto", "update"));
+      }
+
+    
 
     @Override
     public PSequence<AggregateEventTag<MensagemEvent>> aggregateTags() {
