@@ -64,17 +64,15 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     @Override
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
-        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.oracle.read.side.processor.offset"))
-                .setGlobalPrepare(this::createSchema)
+        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.cassandra.read.side.processor.offset"))
+                .setGlobalPrepare(this::globalPrepare)
                 .setPrepare(this::prepare)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
                 .setEventHandler(MensagemUpdated.class, this::handleUpdatedMensagem)
                 .build();
     }
 
-    private void createSchema(@SuppressWarnings("unused") EntityManager ignored) {
-        Persistence.generateSchema("default", ImmutableMap.of("hibernate.hbm2ddl.auto", "update"));
-    }
+
 
     @Override
     public PSequence<AggregateEventTag<MensagemEvent>> aggregateTags() {
