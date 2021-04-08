@@ -33,8 +33,6 @@ import java.util.concurrent.CompletionStage;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import com.google.common.collect.ImmutableMap;
-
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.ERROR;
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.TRACE;
 
@@ -66,18 +64,11 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
         return readSideSupport.<MensagemEvent>builder("mensagem_offset_1")
-                .setGlobalPrepare(entityManager -> createSchema())
+                .setGlobalPrepare(this::globalPrepare)
+                .setPrepare(this::prepare)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
                 .setEventHandler(MensagemUpdated.class, this::handleUpdatedMensagem)
                 .build();
-    }
-
-    private void createSchema() {
-        // This is a convenience for creating the read-side table in development mode.
-        // It relies on a Hibernate-specific property to provide idempotent schema updates.
-        Persistence.generateSchema("default",
-                ImmutableMap.of("hibernate.hbm2ddl.auto", "update")
-        );
     }
 
     @Override
