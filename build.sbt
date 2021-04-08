@@ -124,6 +124,7 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomJavadslPersistenceCassandra,
       lagomJavadslPersistenceJdbc,
       lagomJavadslPersistenceJpa,
+      jpaApi,
       javaJdbc,
       lagomJavadslKafkaBroker,
       lagomLogback,
@@ -140,6 +141,8 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomAkkaServiceDiscovery
 //      vavrJackson,
     ),
+    libraryDependencies += "com.lightbend.lagom" %% "lagom-javadsl-persistence-jpa" % "1.6.5-RC1",
+    libraryDependencies += "javax.persistence" % "javax.persistence-api" % "2.2",
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
     libraryDependencies ++= Seq(javaJdbc),
