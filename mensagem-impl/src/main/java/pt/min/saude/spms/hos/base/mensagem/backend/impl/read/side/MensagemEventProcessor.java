@@ -6,10 +6,8 @@ import com.lightbend.lagom.javadsl.persistence.AggregateEventTag;
 import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 
 import com.lightbend.lagom.javadsl.persistence.ReadSide;
-import com.lightbend.lagom.javadsl.persistence.ReadSideProcessor;
 import com.lightbend.lagom.javadsl.persistence.jpa.JpaReadSide;
 import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
-
 
 import com.typesafe.config.Config;
 import io.vavr.Lazy;
@@ -31,10 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-
-import com.google.common.collect.ImmutableMap;
 
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.ERROR;
 import static pt.min.saude.spms.hos.common.classes.backend.LogBuilder.Type.TRACE;
@@ -53,7 +47,7 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     @Inject
     public MensagemEventProcessor(final JpaReadSide readSideSupport,
-                                  final MensagemOracleReadSide oracle,
+                                  final MensagemCasMensagemOracleReadSidesandraReadSide oracle,
                                   final MensagemElasticReadSide elasticsearch,
                                   Config configuration) {
         this.readSideSupport = readSideSupport;
@@ -64,15 +58,13 @@ public class MensagemEventProcessor extends ReadSideProcessor<MensagemEvent> {
 
     @Override
     public ReadSideProcessor.ReadSideHandler<MensagemEvent> buildHandler() {
-        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.cassandra.read.side.processor.offset"))
+        return readSideSupport.<MensagemEvent>builder(configuration.getString("implementation.oracle.read.side.processor.offset"))
                 .setGlobalPrepare(this::globalPrepare)
                 .setPrepare(this::prepare)
                 .setEventHandler(MensagemCreated.class, this::handleCreatedMensagem)
                 .setEventHandler(MensagemUpdated.class, this::handleUpdatedMensagem)
                 .build();
     }
-
-
 
     @Override
     public PSequence<AggregateEventTag<MensagemEvent>> aggregateTags() {
