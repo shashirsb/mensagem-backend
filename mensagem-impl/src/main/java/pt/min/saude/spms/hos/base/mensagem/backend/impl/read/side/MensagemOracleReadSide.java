@@ -15,8 +15,6 @@ import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
 import pt.min.saude.spms.hos.oracle.utils.backend.BaseOracleReadSide;
 
 
-
-
 @Singleton
 public class MensagemOracleReadSide extends BaseOracleReadSide<MensagemState> {
 
