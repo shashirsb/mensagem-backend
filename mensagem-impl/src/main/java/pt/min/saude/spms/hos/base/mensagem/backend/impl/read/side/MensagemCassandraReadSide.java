@@ -13,10 +13,6 @@ import pt.min.saude.spms.hos.common.classes.backend.LogBuilder;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
-
-
-
 @Singleton
 public class MensagemCassandraReadSide extends BaseCassandraReadSide<MensagemState> {
 

@@ -19,13 +19,6 @@ import pt.min.saude.spms.hos.base.mensagem.backend.impl.write.side.MensagemWrite
 import pt.min.saude.spms.hos.common.classes.backend.*;
 import pt.min.saude.spms.hos.service.utils.backend.BaseServiceImpl;
 
-import com.lightbend.lagom.javadsl.persistence.jpa.JpaSession;
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-import org.pcollections.PSequence;
-import org.pcollections.TreePVector;
-
 import javax.inject.Inject;
 import java.util.Optional;
 
@@ -34,8 +27,6 @@ import static pt.min.saude.spms.hos.service.utils.backend.handlers.Authenticatio
 
 
 public class MensagemServiceImpl extends BaseServiceImpl implements MensagemService {
-
-    private final JpaSession jpaSession;
 
     private final LogBuilder log = LogBuilder.getLogger(MensagemServiceImpl.class);
 
@@ -50,24 +41,16 @@ public class MensagemServiceImpl extends BaseServiceImpl implements MensagemServ
     public MensagemServiceImpl(MensagemWriteSide writeSide,
                                MensagemElasticReadSide elasticReadSide,
                                MensagemCassandraReadSide cassandraReadSide,
-                               JpaSession jpaSession,
                                MensagemBackendSelfServices mensagemBackendSelfServices) {
         this.writeSide = writeSide;
         this.elasticReadSide = elasticReadSide;
         this.cassandraReadSide = cassandraReadSide;
         this.mensagemBackendSelfServices = mensagemBackendSelfServices;
-        this.jpaSession = jpaSession;
     }
 
     @Override
     public Topic<MensagemEvento> topicMensagemCentral() {
         return writeSide.topicProducer();
-    }
-
- 
-    public ServiceCall<NotUsed, PSequence<MensagemSummary>> getMensagemSummaries() {
-      return request ->
-          jpaSession.withTransaction(this::selectMensagemSummaries).thenApply(TreePVector::from);
     }
 
     @Override
@@ -203,15 +186,6 @@ public class MensagemServiceImpl extends BaseServiceImpl implements MensagemServ
         );
     }
 
-    private List<MensagemSummary> selectMensagemSummaries(EntityManager entityManager) {
-        return entityManager
-            .createQuery(
-                "SELECT"
-                    + " NEW pt.min.saude.spms.hos.base.mensagem.backend.impl.read.side.MensagemSummary(s.id, s.json)"
-                    + " FROM MensagemSummaryJpaEntity s",
-                    MensagemSummary.class)
-            .getResultList();
-      }
 
 
 }

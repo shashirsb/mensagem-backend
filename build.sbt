@@ -4,7 +4,7 @@ import scala.concurrent.duration._
 
 //-------------------------------------------------Versions-------------------------------------------------------------
 val mensagemAPIVersion = "1.6"
-val mensagemVersion = "2.1.0-ORCL_RC1"
+val mensagemVersion = "2.1.0-RC16"
 val junit5Version = "5.3.1"
 //---------------------------------------------------Dev----------------------------------------------------------------
 
@@ -45,19 +45,13 @@ val cassandraUtils = hosCommonNS % "cassandra-utils_2.12" % sharedKernelVersions
 val loggingUtils = hosCommonNS % "logging-utils_2.12" % "2.1.0-RC15"
 val logbackKafkaAppender = "com.github.danielwegener" % "logback-kafka-appender" % "0.2.0-RC1"
 //val vavrJackson = "io.vavr" % "vavr-jackson" % "0.10.0"
-val junit5Jupiter = Seq("org.junit.jupiter" % "junit-jupiter-api" % junit5Version % Test,
-  "org.junit.jupiter" % "junit-jupiter-params" % junit5Version % Test,
-  "org.junit.jupiter" % "junit-jupiter-engine" % junit5Version % Test)
-val junitInterface = Seq("org.junit.platform" % "junit-platform-runner" % "1.3.2" % Test,
-  "net.aichler" % "jupiter-interface" % "0.7.0" % Test)
+// val junit5Jupiter = Seq("org.junit.jupiter" % "junit-jupiter-api" % junit5Version % Test,
+//   "org.junit.jupiter" % "junit-jupiter-params" % junit5Version % Test,
+//   "org.junit.jupiter" % "junit-jupiter-engine" % junit5Version % Test)
+// val junitInterface = Seq("org.junit.platform" % "junit-platform-runner" % "1.3.2" % Test,
+//   "net.aichler" % "jupiter-interface" % "0.7.0" % Test)
 val lagomAkkaServiceDiscovery = "com.lightbend.lagom" %% "lagom-javadsl-akka-discovery-service-locator" % LagomVersion.current
 val akkaDiscoverK8sApi = "com.lightbend.akka.discovery" %% "akka-discovery-kubernetes-api" % "1.0.0"
-val hibernate = "org.hibernate" % "hibernate-core" % "5.4.27.Final"
-
-val jpaApi                 = "org.hibernate.javax.persistence" % "hibernate-jpa-2.1-api"   % "1.0.0.Final"
-val validationApi          = "javax.validation"                % "validation-api"          % "1.1.0.Final"
-
-
 
 lazy val jacocoSettings =
   jacocoReportSettings := JacocoReportSettings(
@@ -102,7 +96,6 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
     ),
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
-    libraryDependencies ++= Seq(javaJdbc),
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.api"
@@ -110,10 +103,6 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
 
 lazy val `mensagem-impl` = (project in file("mensagem-impl"))
   .enablePlugins(LagomJava, BuildInfoPlugin)
-  .settings(resolvers += "OAM 11g" at "https://maven.oracle.com",
-    credentials += Credentials("OAM 11g", "login.oracle.com/mysso/signon.jsp", "shashi.rsb@hotmail.com", "Hitmewell123"),
-    libraryDependencies += "com.oracle.ojdbc" % "ojdbc8" % "19.3.0.0"
-    )
   .settings(
     version := mensagemVersion,
     lagomKafkaEnabled in ThisBuild := true,
@@ -122,14 +111,9 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
     libraryDependencies ++= Seq(
       lagomJavadslJackson,
       lagomJavadslPersistenceCassandra,
-      lagomJavadslPersistenceJdbc,
-      lagomJavadslPersistenceJpa,
-      jpaApi,
-      javaJdbc,
       lagomJavadslKafkaBroker,
       lagomLogback,
       filters,
-      hibernate,
       commonClasses,
       serviceUtils,
       elasticUtils,
@@ -141,12 +125,8 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomAkkaServiceDiscovery
 //      vavrJackson,
     ),
-    libraryDependencies += "com.lightbend.lagom" %% "lagom-javadsl-persistence-jpa" % "1.6.5-RC1",
-    libraryDependencies += "javax.persistence" % "javax.persistence-api" % "2.2",
     libraryDependencies ++= junit5Jupiter,
     libraryDependencies ++= junitInterface,
-    libraryDependencies += lagomJavadslPersistenceJpa,
-    libraryDependencies ++= Seq(javaJdbc),
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.impl"
