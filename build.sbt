@@ -94,8 +94,8 @@ lazy val `mensagem-api` = (project in file("mensagem-api"))
       lagomAkkaServiceDiscovery,
       logback,
     ),
-    libraryDependencies ++= junit5Jupiter,
-    libraryDependencies ++= junitInterface,
+    // libraryDependencies ++= junit5Jupiter,
+    // libraryDependencies ++= junitInterface,
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.api"
@@ -125,8 +125,8 @@ lazy val `mensagem-impl` = (project in file("mensagem-impl"))
       lagomAkkaServiceDiscovery
 //      vavrJackson,
     ),
-    libraryDependencies ++= junit5Jupiter,
-    libraryDependencies ++= junitInterface,
+    // libraryDependencies ++= junit5Jupiter,
+    // libraryDependencies ++= junitInterface,
     jacocoSettings,
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "pt.min.saude.spms.hos.base.mensagem.backend.impl"
